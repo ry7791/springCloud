@@ -5,12 +5,23 @@ spring:
   application:
     name: ConfigServer
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+
   cloud:
     config:
       server:
         git:
-          uri: https://github.com/????/MyAppConfiguration.git
-          username: ??
-          password: ??
+          uri: https://github.com/ry7791/MyAppConfiguration.git
+          username: ry7791
+          password: rr77wjddnr
           clone-on-start: true
-      
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
