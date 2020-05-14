@@ -9,8 +9,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/ry7791/MyAppConfiguration.git
-          username: ry7791
-          password: rr77wjddnr
+          uri: https://github.com/????/MyAppConfiguration.git
+          username: ??
+          password: ??
           clone-on-start: true
       
