@@ -1,0 +1,6 @@
+gateway:
+    ip: 59.29.224.68
+
+token:
+    expiration_time: 86400000 # 1days (milliseconds)
+    secret: local_secret

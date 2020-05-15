@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c840d218-6d98-4080-abf8-28b362c6d0fd" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../msa 구조.md" beforeDir="false" afterPath="$PROJECT_DIR$/../msa 구조.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myapp-api-users/myapp-api-users/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/myapp-api-users/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myapp-api-users/myapp-api-users/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/myapp-api-users/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myapp-api-users/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/controller/UsersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/controller/UsersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/security/AuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/security/AuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/security/webSecurity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/security/webSecurity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/service/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/resources/bootstrap.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../myapp-config-server/myapp-config-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-config-server/myapp-config-server/src/main/resources/application.yml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectId" id="1bvmGz6OUtM59vGwnVtNmbOZMyb" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c840d218-6d98-4080-abf8-28b362c6d0fd" name="Default Changelist" comment="" />
+      <created>1589520849673</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1589520849673</updated>
+    </task>
+    <servers />
+  </component>
+</project>

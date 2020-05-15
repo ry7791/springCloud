@@ -99,7 +99,9 @@ Value = Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4YWE0ODYwZC1iZmY2LTRjOWQtOTk3My02
 
 
 
-### Rabbitmq를 이용한 비동기 메시징 서비스
+### CloudBus - Rabbitmq를 이용한 비동기 메시징 서비스
+
+- 깃으로 설정을 관리하자
 
 ```
 깃에 있는 설정 내용
@@ -189,6 +191,43 @@ Value = Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4YWE0ODYwZC1iZmY2LTRjOWQtOTk3My02
 
 
 
+### 깃 말고 내부 폴더에서 config 관리하자
+
+- 특정 경로에 설정파일 생성
+
+```powershell
+C:\Users\HPE\Work\springCloudDev>code application.yml
+
+C:\Users\HPE\Work\springCloudDev>code users-ws.yml
+```
+
+- application.yml
+
+```yml
+login:
+    url:
+      path: /users/login
+
+spring:
+    datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: sa
+```
+
+- users-ws.yml
+
+```yml
+login:
+    url:
+      path: /users/login
+
+spring:
+    datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: sa
+```
 
 
 
@@ -196,6 +235,204 @@ Value = Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4YWE0ODYwZC1iZmY2LTRjOWQtOTk3My02
 
 
 
+- configuration 의 yml
+
+```javascript
+spring:
+  application:
+    name: ConfigServer
+
+//profiles:
+//  active: native
+/// 두줄 추가
+
+   cloud:
+    config:
+      server:
+        git:
+//      native:
+//        search-locations: file:///${user.home}/Work/springCloudDev
+// 두줄 추가
+```
+
+
+
+- user-ws의 bootstrap.yml
+
+```yml
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8012
+#      name: ConfigServer
+      name: users-ws
+```
+
+
+
+### postman에서 확인
+
+```java
+GET - http://59.29.224.68:8012/users-ws/default
+
+결과 =>
+{
+    "name": "users-ws",
+    "profiles": [
+        "default"
+    ],
+    "label": null,
+    "version": null,
+    "state": null,
+    "propertySources": [
+        {
+            "name": "file:///C:/Users/HPE/Work/springCloudDev/users-ws.yml",
+            "source": {
+                "login.url.path": "/users/login",
+                "spring.datasource": "",
+                "spring.url": "jdbc:h2:mem:testdb",
+                "spring.username": "sa",
+                "spring.password": "sa"
+            }
+        },
+        {
+            "name": "file:///C:/Users/HPE/Work/springCloudDev/application.yml",
+            "source": {
+                "gateway.ip": "59.29.224.68",
+                "token.expiration_time": 86400000,
+                "token.secret": "local_secret"
+            }
+        }
+    ]
+}
+
+```
+
+
+
+## 암호화 방법 2가지
+
+
+
+### 1. jce 사용해서 암호화
+
+- C:\Program Files\Java\jdk-13.0.2\lib\security  경로에 다운받은 jce_policy-8 에 있는 파일 넣어줌
+
+
+
+- config-server 에서 bootstrap.yml 추가
+
+```yml
+encrypt:
+  key: test1234  //키값은 아무거나
+```
+
+
+
+- postman에서 확인
+
+```javascript
+post - http://59.29.224.68:8012/encrypt
+
+body - raw - 12341234
+
+결과값 => 82b0a93fb68fbf76f5ccb59bf4146f9b99478e5dd22fd893e6bdc9f4b9c99554
+
+post - http://59.29.224.68:8012/decrypt
+body - raw - 82b0a93fb68fbf76f5ccb59bf4146f9b99478e5dd22fd893e6bdc9f4b9c99554
+결과값 => 12341234
+```
+
+
+
+### 2. self 인증서
+
+- cmd 창에서
+
+```cmd
+C:\Users\HPE\Work\springCloudDev> keytool -genkeypair -alias apiEncryptionKey -keyalg RSA -keypass "1q2w3e4r" -keystore apiEncryptionKey.jks -storepass "1q2w3e4r"
+
+[no]:  yes
+```
+
+- config-server  bootstrap
+
+```yml
+encrypt:
+  key: test1234
+
+  key-store:
+    location: file:///${user.home}/Work/springCloudDev/apiEncryptionKey.jks
+    password: 1q2w3e4r
+    alias: apiEncryptionKey
+```
+
+
+
+- users-ws.yml
+
+```yml
+login:
+    url:
+      path: /users/login
+
+spring:
+    datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: '{cipher}test'
+```
+
+- get - http://59.29.224.68:8012/users-ws/default 에서 
+
+```java
+   "propertySources": [
+        {
+            "name": "file:///C:/Users/HPE/Work/springCloudDev/users-ws.yml",
+            "source": {
+                "login.url.path": "/users/login",
+                "spring.datasource": "",
+                "spring.url": "jdbc:h2:mem:testdb",
+                "spring.username": "sa",
+                "invalid.spring.password": "<n/a>"
+            }
+        },
+        {
+```
+
+
+
+- post - http://59.29.224.68:8012/encrypt 로 test 값 변환해서 넣으면
+
+```yml
+login:
+    url:
+      path: /users/login
+
+spring:
+    datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: '{cipher}AQBrePw0iuADV/BAfKulKq9FtKXYI94vJ59RehbZ/YgUqxwc92xNOC+1gj1ufpnZFCDd+hU844iyQgZkH0h6dLwwdg+EctcVb1ltvT1LX0t9aBuzMo69zIsDqjMk8XncFJHEAhB0vcn7vkX5JlrvSA61yqyZrqWPdIcryIOuVVTo0GlBM1LNatEofwqmUANvM0o+DDG+FGShW15Uq/YiWKG02C3MkMX2D4ydMPBm/ui/r1BoCA495PzGO5eqCTN4HwB/3RSCN2O/bnXQaA0eHVMuScArrIpIAv4svhivqS0ARZ2QzUczaSVYpOXswiJmxnOOyJWZQhZ2Wyg3u2Z3hBsk+uf8gBwW8uHgJByYU8iiiMlLiKW8t1RDbvzDex1ZCes='
+```
+
+
+
+- 나옴
+
+```java
+    "propertySources": [
+        {
+            "name": "file:///C:/Users/HPE/Work/springCloudDev/users-ws.yml",
+            "source": {
+                "login.url.path": "/users/login",
+                "spring.datasource": "",
+                "spring.url": "jdbc:h2:mem:testdb",
+                "spring.username": "sa",
+                "spring.password": "test"
+            }
+        },
+```
 
 
 
@@ -203,27 +440,38 @@ Value = Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4YWE0ODYwZC1iZmY2LTRjOWQtOTk3My02
 
 
 
+### kafka 메세지 큐잉 시스템
 
 
 
+```javascript
+C:\Users\HPE\Work\kafka_2.12-2.3.1>.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+C:\Users\HPE\Work\kafka_2.12-2.3.1>.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+```
 
 
 
+- consumer
 
+  ```powershell
+  C:\Users\HPE\Work\kafka_2.12-2.3.1>.\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic msa_20200515
+  
+  C:\Users\HPE\Work\kafka_2.12-2.3.1>.\bin\windows\kafka-topics.bat --list --bootstrap-server localhost:9092
+  
+  C:\Users\HPE\Work\kafka_2.12-2.3.1>.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic msa_20200515
+  ```
 
+  
 
+- broker
 
+```powershell
+C:\Users\HPE\Work\kafka_2.12-2.3.1>.\bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic msa_20200515
 
-
-
-
-
-
-
-
-
-
-
+그다음에  메세지 쓰면 consumer한테 그대로 전달됨
+```
 
 
 
@@ -252,6 +500,8 @@ Value = Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI4YWE0ODYwZC1iZmY2LTRjOWQtOTk3My02
 UserDTO userDTO = userMapper.map(user, UserDTO.class);
 
 ```
+
+
 
 
 

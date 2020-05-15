@@ -5,6 +5,11 @@ spring:
   application:
     name: users-ws
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
 
   devtools:
     restart:
@@ -15,8 +20,9 @@ spring:
       enabled: true
       settings:
         web-allow-others: true  #�ܺ� ���� ���
-  datasource:
-    url: jdbc:h2:mem:testdb
+#  datasource:
+#    url: jdbc:h2:mem:testdb
+
 eureka:
   client:
     serviceUrl:
@@ -26,6 +32,10 @@ eureka:
 gateway:
   ip: 59.29.224.68
 
-token:
-  expiration_time: 864000000 # 10days (milliseconds)
-  secret: local_secret
+#token:
+#  expiration_time: 864000000 # 10days (milliseconds)
+#  secret: local_secret
+
+#login:
+#  url:
+#    path: /users/login

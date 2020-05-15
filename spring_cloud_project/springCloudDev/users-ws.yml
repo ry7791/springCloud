@@ -1,0 +1,9 @@
+login:
+    url:
+      path: /users/login
+
+spring:
+    datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: '{cipher}AQBrePw0iuADV/BAfKulKq9FtKXYI94vJ59RehbZ/YgUqxwc92xNOC+1gj1ufpnZFCDd+hU844iyQgZkH0h6dLwwdg+EctcVb1ltvT1LX0t9aBuzMo69zIsDqjMk8XncFJHEAhB0vcn7vkX5JlrvSA61yqyZrqWPdIcryIOuVVTo0GlBM1LNatEofwqmUANvM0o+DDG+FGShW15Uq/YiWKG02C3MkMX2D4ydMPBm/ui/r1BoCA495PzGO5eqCTN4HwB/3RSCN2O/bnXQaA0eHVMuScArrIpIAv4svhivqS0ARZ2QzUczaSVYpOXswiJmxnOOyJWZQhZ2Wyg3u2Z3hBsk+uf8gBwW8uHgJByYU8iiiMlLiKW8t1RDbvzDex1ZCes='

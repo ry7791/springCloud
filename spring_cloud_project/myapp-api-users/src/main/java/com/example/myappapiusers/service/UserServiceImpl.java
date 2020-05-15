@@ -17,30 +17,30 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
-public class UserServiceImpl implements UsersService{
+public class UserServiceImpl implements UsersService {
     UsersRepository repository;
     BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public UserServiceImpl(UsersRepository repository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UsersRepository repository,
+                            BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.repository = repository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-
-
     @Override
-    public UserDto createUser(UserDto userDetails){
-
+    public UserDto createUser(UserDto userDetails) {
+        // UserDto -> UserEntity
         userDetails.setUserId(UUID.randomUUID().toString());
 
-        userDetails.setEncryptedPassword(bCryptPasswordEncoder.encode(userDetails.getPassword()));
+        userDetails.setEncryptedPassword(
+                bCryptPasswordEncoder.encode(userDetails.getPassword())
+        );
 
-        ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        ModelMapper modelMapper =  new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(
+                MatchingStrategies.STRICT);
         User1Entity userEntity = modelMapper.map(userDetails, User1Entity.class);
-        userEntity.setEncryptedPassword("test encrypted password");
-
 
         repository.save(userEntity);
 
@@ -52,22 +52,23 @@ public class UserServiceImpl implements UsersService{
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User1Entity userEntity = repository.findByEmail(email);
 
-        if(userEntity == null){
+        if (userEntity == null) {
             throw new UsernameNotFoundException(email);
         }
 
-        return new User(userEntity.getEmail(), userEntity.getEncryptedPassword(),
-                true, true, true, true, new ArrayList<>());
+        return new User(userEntity.getEmail() , userEntity.getEncryptedPassword(),
+                true, true, true,
+                true, new ArrayList<>());
     }
 
     @Override
     public UserDto getUserDetailsByEmail(String email) {
         User1Entity userEntity = repository.findByEmail(email);
 
-        if(userEntity == null){
+        if (userEntity == null) {
             throw new UsernameNotFoundException(email);
         }
-        //UserEntity -> UserDto (using ModelMapper)
+        // UserEntity -> UserDto (using ModelMapper)
         return new ModelMapper().map(userEntity, UserDto.class);
     }
 }

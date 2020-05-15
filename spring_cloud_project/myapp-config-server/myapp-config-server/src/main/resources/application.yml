@@ -5,6 +5,9 @@ spring:
   application:
     name: ConfigServer
 
+  profiles:
+    active: native
+
   rabbitmq:
     host: localhost
     port: 5672
@@ -16,9 +19,11 @@ spring:
       server:
         git:
           uri: https://github.com/ry7791/MyAppConfiguration.git
-          username: ry7791
-          password: rr77wjddnr
+          username:
+          password:
           clone-on-start: true
+        native:
+          search-locations: file:///${user.home}/Work/springCloudDev
 
 management:
   endpoints:

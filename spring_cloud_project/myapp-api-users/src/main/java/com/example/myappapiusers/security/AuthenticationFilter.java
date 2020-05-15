@@ -6,6 +6,8 @@ import com.example.myappapiusers.service.UsersService;
 import com.example.myappapiusers.shared.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,14 +22,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    // check username=(email) passowrd 사용자 유무 확인 (encryptePassword), 토큰 처리작업
-
     private UsersService usersService;
-
     private Environment env;
 
+
+
+    @Autowired
     public AuthenticationFilter(UsersService usersService, Environment env, AuthenticationManager authenticationManager) {
         this.usersService = usersService;
         this.env = env;
@@ -35,9 +38,8 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
-            throws AuthenticationException {
-        try {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+        try{
             LoginRequestModel creds = new ObjectMapper()
                     .readValue(request.getInputStream(), LoginRequestModel.class);
 
@@ -48,24 +50,34 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                             new ArrayList<>()
                     )
             );
-        } catch (IOException ex) {
+        }catch (IOException ex){
             throw new RuntimeException();
         }
+
     }
 
     @Override
-    protected  void successfulAuthentication(HttpServletRequest request,
-                                             HttpServletResponse response,
-                                             FilterChain chain,
-                                             Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest req,
+                                            HttpServletResponse res,
+                                            FilterChain chain,
+                                            Authentication authResult) throws  IOException, ServletException{
+        // 비밀번호는 안나옴
+        // System.out.println(authResult);
+
+        // generate token
         String email = ((User)authResult.getPrincipal()).getUsername();
-       UserDto userDetail = usersService.getUserDetailsByEmail(email);
+        // 한번 더 접속해서 DB 정보를 가져옴
+        UserDto userDetail = usersService.getUserDetailsByEmail(email);
 
-       //generate token with userId(email)
-        //token expire_date (configuration or application.yml)
-        String token = Jwts.builder().compact();
+        // compact 호출해야 토큰 생성 됨
+        String token = Jwts.builder()
+                .setSubject(userDetail.getUserId())
+                .setExpiration(new Date(System.currentTimeMillis()
+                        + Long.parseLong(env.getProperty("token.expiration_time"))))
+                .signWith(SignatureAlgorithm.HS512, env.getProperty("token.secret"))
+                .compact();
 
-        response.addHeader("token", token);
-        response.addHeader("userId", userDetail.getUserId());
+        res.addHeader("token", token);
+        res.addHeader("userId", userDetail.getUserId());
     }
 }
