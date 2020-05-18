@@ -1,12 +1,14 @@
 ### Spring Cloud msa 구조
 
-
+순서
 
 port 8010 => eureka server
 
+port 8012 => configuration server
+
 port 8011 => zuul server
 
-port 8012 => configuration server
+
 
 랜덤포트 => users-ws
 
@@ -476,6 +478,81 @@ C:\Users\HPE\Work\kafka_2.12-2.3.1>.\bin\windows\kafka-console-producer.bat --br
 
 
 
+
+
+
+- restTemplate을 이용한 users에서의 albums 호출
+
+```java
+get - http://localhost:8011/users-ws/users/{userId}
+
+Headers
+key = Authorization
+value = Bearer+' '+토큰값
+
+결과값 => 
+{
+    "userId": "280e5311-e490-40ab-b8e8-a8d73cd6ac69",
+    "firstName": "test",
+    "lastName": "test",
+    "email": "test@naver.com",
+    "albums": [
+        {
+            "albumId": "album1Id",
+            "userId": "280e5311-e490-40ab-b8e8-a8d73cd6ac69",
+            "name": "album 1 name",
+            "description": "album 1 description"
+        },
+        {
+            "albumId": "album2Id",
+            "userId": "280e5311-e490-40ab-b8e8-a8d73cd6ac69",
+            "name": "album 2 name",
+            "description": "album 2 description"
+        }
+    ]
+}
+```
+
+
+
+- Feign - restTemplate 필요없이 msa 간 데이터 호출 가능
+
+```java
+package com.example.myappapiusers.client;
+
+import com.example.myappapiusers.model.AlbumResponseModel;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
+
+@FeignClient(name = "albums-ws")
+public interface AlbumServiceClient {
+
+    @GetMapping("/users/{id}/albums")
+    List<AlbumResponseModel> getAlbums(@PathVariable String id);
+}
+//이거 만들면
+```
+
+
+
+```java
+// restTemplate과 달리 한 줄로 끝~~~
+//        ResponseEntity<List<AlbumResponseModel>> albumsListResponse =
+//       restTemplate.exchange(
+//               String.format("http://albums-ws/users/%s/albums",userId),
+//               HttpMethod.GET,
+//               null,
+//               new ParameterizedTypeReference<List<AlbumResponseModel>>() {
+//       });
+//
+//        List<AlbumResponseModel> albumsList = albumsListResponse.getBody();
+
+
+        List<AlbumResponseModel> albumsList = albumServiceClient.getAlbums(userId);
+```
 
 
 
