@@ -562,6 +562,120 @@ public interface AlbumServiceClient {
 
 
 
+### 에러 캐치
+
+- try catch
+
+```java
+//        List<AlbumResponseModel> albumsList = null;
+//        try {
+//            albumsList = albumServiceClient.getAlbums(userId);
+//        }catch (FeignException ex){
+//            log.error(ex.getLocalizedMessage());
+//        }
+```
+
+- decoder 이용
+
+  - FeignErrorDecoder 
+
+  ```java
+  package com.example.myappapiusers.shared;
+  
+  import feign.Response;
+  import feign.codec.ErrorDecoder;
+  import org.springframework.beans.factory.annotation.Autowired;
+  import org.springframework.core.env.Environment;
+  import org.springframework.http.HttpStatus;
+  import org.springframework.web.server.ResponseStatusException;
+  
+  public class FeignErrorDecoder implements ErrorDecoder {
+      @Autowired
+      Environment env;
+  
+      @Override
+      public Exception decode(String methodKey, Response response) {
+          switch (response.status()){
+              case 400:
+                  break;
+              case 404:
+                  if(methodKey.contains("getAlbums")){
+                      return  new ResponseStatusException(HttpStatus.valueOf(response.status()),
+                              env.getProperty("exception.albums-not-found"));
+                  }
+                  break;
+              default:
+                  return new Exception(response.reason());
+          }
+          return null;
+      }
+  }
+  ```
+
+  - MyappApiUsersApplication 에 FeignErrorDecoder bean 추가
+
+  ```java
+  @Bean
+  	public FeignErrorDecoder getFeignErrorDecoder(){
+  		return new FeignErrorDecoder();
+  	}
+  ```
+
+  - userServiceImpl
+
+  ```java
+   @Override
+      public UserDto getUserByUserID(String userId){
+          User1Entity userEntity = repository.findByUserId(userId);
+  
+          if (userEntity == null) {
+              throw new UsernameNotFoundException(userId);
+          }
+  
+          UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+          //call - > albums microservice
+  //        ResponseEntity<List<AlbumResponseModel>> albumsListResponse =
+  //       restTemplate.exchange(
+  //               String.format("http://albums-ws/users/%s/albums",userId),
+  //               HttpMethod.GET,
+  //               null,
+  //               new ParameterizedTypeReference<List<AlbumResponseModel>>() {
+  //       });
+  //
+  //        List<AlbumResponseModel> albumsList = albumsListResponse.getBody();
+  
+  // try catch 할거면 이걸로
+  //        List<AlbumResponseModel> albumsList = null;
+  //        try {
+  //            albumsList = albumServiceClient.getAlbums(userId);
+  //        }catch (FeignException ex){
+  //            log.error(ex.getLocalizedMessage());
+  //        }
+  
+          List<AlbumResponseModel> albumsList = albumServiceClient.getAlbums(userId);
+  
+          userDto.setAlbums(albumsList);
+  
+          return userDto;
+      }
+  ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 - h2 console : http://59.29.224.68:54415/h2-console 에서 데이터 확인가능
 
 
@@ -577,8 +691,6 @@ public interface AlbumServiceClient {
 UserDTO userDTO = userMapper.map(user, UserDTO.class);
 
 ```
-
-
 
 
 

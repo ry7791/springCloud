@@ -1,29 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fd521ca5-5026-4b4c-9ef5-60d88334872b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../msa 구조.md" beforeDir="false" afterPath="$PROJECT_DIR$/../msa 구조.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../myapp-api-users/myapp-api-users/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/myapp-api-users/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../myapp-api-users/myapp-api-users/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/myapp-api-users/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../myapp-api-users/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/controller/UsersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/controller/UsersController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/security/AuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/security/AuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/security/webSecurity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/security/webSecurity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/java/com/example/myappapiusers/service/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../myapp-api-users/src/main/resources/bootstrap.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../myapp-api-users/src/main/resources/bootstrap.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp-config-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/myapp-config-server/src/main/resources/application.yml" afterDir="false" />
-    </list>
+    <list default="true" id="addf4aef-0eee-4875-bf0c-efb1226c3a02" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  <component name="MavenImportPreferences">
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="jdkForImporter" value="1.8" />
+        <option name="vmOptionsForImporter" value="-Xmx768m" />
+      </MavenImportingSettings>
+    </option>
   </component>
-  <component name="ProjectId" id="1bvm8wWIsJcL4OaUiedrnKuq9tm" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="1c3gAtVdL0hH3nvK1xGuEDdetsG" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -31,20 +23,87 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/myapp-config-server" />
+    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.importing" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\java\myapp-config-server\myapp-config-server" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MyappConfigServerApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.myappconfigserver.MyappConfigServerApplication" />
+      <module name="myapp-config-server" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.myappconfigserver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MyappConfigServerApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="fd521ca5-5026-4b4c-9ef5-60d88334872b" name="Default Changelist" comment="" />
-      <created>1589520785419</created>
+      <changelist id="addf4aef-0eee-4875-bf0c-efb1226c3a02" name="Default Changelist" comment="" />
+      <created>1589762550617</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1589520785419</updated>
+      <updated>1589762550617</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="752" y="274" key="FileChooserDialogImpl" timestamp="1589764621116">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="752" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1589764621116" />
+    <state width="1860" height="344" key="GridCell.Tab.0.bottom" timestamp="1589955352488">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1860" height="344" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589955352488" />
+    <state width="1860" height="344" key="GridCell.Tab.0.center" timestamp="1589955352488">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1860" height="344" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589955352488" />
+    <state width="1860" height="344" key="GridCell.Tab.0.left" timestamp="1589955352488">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1860" height="344" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589955352488" />
+    <state width="1860" height="344" key="GridCell.Tab.0.right" timestamp="1589955352488">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1860" height="344" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589955352488" />
+    <state width="1860" height="344" key="GridCell.Tab.1.bottom" timestamp="1589955352489">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1860" height="344" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589955352489" />
+    <state width="1860" height="344" key="GridCell.Tab.1.center" timestamp="1589955352489">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1860" height="344" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589955352489" />
+    <state width="1860" height="344" key="GridCell.Tab.1.left" timestamp="1589955352489">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1860" height="344" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589955352489" />
+    <state width="1860" height="344" key="GridCell.Tab.1.right" timestamp="1589955352489">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1860" height="344" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589955352489" />
+    <state x="473" y="164" key="SettingsEditor" timestamp="1589763725566">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="473" y="164" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1589763725566" />
   </component>
 </project>

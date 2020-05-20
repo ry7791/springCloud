@@ -1,6 +1,11 @@
 gateway:
     ip: 59.29.224.68
 
+albums:
+    url: http://albums-ws/users/%s/albums
+    exception:
+        albums-not-found: Users albums are not found
+
 token:
     expiration_time: 86400000 # 1days (milliseconds)
     secret: local_secret

@@ -1,10 +1,8 @@
 package com.example.myappapiusers.controller;
 
-import com.example.myappapiusers.data.User1Entity;
-import com.example.myappapiusers.exception.ResourceNotFoundException;
 import com.example.myappapiusers.model.CreateUserRequestModel;
 import com.example.myappapiusers.model.CreateUserResponseModel;
-import com.example.myappapiusers.repository.UserRepository;
+import com.example.myappapiusers.model.UserResponseModel;
 import com.example.myappapiusers.service.UsersService;
 import com.example.myappapiusers.shared.UserDto;
 import org.modelmapper.ModelMapper;
@@ -16,9 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
@@ -57,5 +53,13 @@ public class UsersController {
                 CreateUserResponseModel.class);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(returnValue);
+    }
+
+    @GetMapping(value="/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<UserResponseModel> getUser(@PathVariable("userId") String userId){
+        UserDto userDto = userService.getUserByUserID(userId);
+        UserResponseModel returnValue = new ModelMapper().map(userDto, UserResponseModel.class);
+
+        return ResponseEntity.status(HttpStatus.OK).body(returnValue);
     }
 }

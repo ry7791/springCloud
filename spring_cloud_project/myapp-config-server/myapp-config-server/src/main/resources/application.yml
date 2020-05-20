@@ -6,7 +6,7 @@ spring:
     name: ConfigServer
 
   profiles:
-    active: native
+    active: native #깃 설정을 쓸거면 이거 삭제 OR native -> git으로
 
   rabbitmq:
     host: localhost
@@ -19,8 +19,8 @@ spring:
       server:
         git:
           uri: https://github.com/ry7791/MyAppConfiguration.git
-          username:
-          password:
+          username: ry7791
+          password: rr77wjddnr
           clone-on-start: true
         native:
           search-locations: file:///${user.home}/Work/springCloudDev
