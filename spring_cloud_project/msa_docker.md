@@ -37,6 +37,36 @@ docker system prune  // 실행중인거 빼고 필요없는 거 다 삭제
 
 
 
+### 네트워크 연결
+
+- 도커 내 각각의 서비스는 네트워크 지정을 안했기 때문에 서로 통신 불가
+
+```java
+docker network ls
+NETWORK ID          NAME                DRIVER              SCOPE
+2a0cb1bfcf5d        bridge              bridge              local
+e97a8bdaca85        host                host                local
+6b11333cdcaa        none                null                local
+// 도커 네트워크는 3개가 있는데
+// 리눅스에서는 --network host 설정가능, 윈도우는 안되니 네트워크를 만들어주자
+docker network create photo-app-network
+    
+// 각각의 서비스 run 할때 --network photo-app-network 추가
+```
+
+
+
+### rabbitmq
+
+```
+docker run -d --name rabbitmq --network photo-app-network -p 5672:5672 -p 15672:15672 --restart=unless-stopped -e RABBITMQ_DEFAULT_USER=admin -e RABBITMQ_DEFAULT_PASS=admin rabbitmq:management
+
+
+
+```
+
+
+
 ### config-server 도커 설정
 
 - config-msa의 도커파일
@@ -60,6 +90,8 @@ docker push ry7791/config-server //도커 허브에 올리는 명령
 
 ```
 
+
+
 - rabbitmq ip 확인
 
 ```shell
@@ -69,7 +101,7 @@ docker inspect rabbitmq
 - config에 있는 application.yml 의  spring.profiles.active를 default 로 설정하고 실행
 
 ```shell
-docker run -d -p 8012:8012 --name config -e "spring.rabbitmq.host=172.17.0.2" -e "spring.profiles.active=default" ry7791/config-server
+docker run -d -p 8012:8012 --network photo-app-network --name config -e "spring.rabbitmq.host=172.18.0.2" -e "spring.profiles.active=default" ry7791/config-server
 ```
 
 
@@ -91,7 +123,7 @@ mvn clean
 mvn package
 docker build --tag=ry7791/eureka-server --force-rm=true .
 docker push ry7791/eureka-server //도커 허브에 올리는 명령
-docker run -d -p 8010:8010 --name eureka-server -e "spring.cloud.config.url=???:8012" ry7791/eureka-server
+docker run -d -p 8010:8010 --network photo-app-network --name eureka-server -e "spring.cloud.config.url=172.18.0.3:8012" ry7791/eureka-server
 // ??? 부분은 conofig-server의 IPAdress 가 들어가야 한다
 // docker ps 로 config-server 컨테이너id 확인하고
 // docker inspect 컨테이너id    => config-server의 IPAdress 확인가능
@@ -117,7 +149,7 @@ ENTRYPOINT ["java", "-jar","ZuulApiGateway.jar"]
 ```shell
 docker build --tag=ry7791/zuul-gateway --force-rm=true . //이미지화
 docker push ry7791/zuul-gateway //도커 허브에 올리는 명령
-docker run -d -p 8011:8011 --name zuul-gateway -e "spring.rabbitmq.host=172.17.0.2" -e "spring.cloud.config.url=172.17.03:8012" -e "eureka.client.serviceUrl.defaultZone=http://test:test@172.17.0.4:8010/eureka/"ry7791/zuul-gateway
+docker run -d -p 8011:8011 --network photo-app-network --name zuul-gateway -e "spring.rabbitmq.host=172.18.0.2" -e "spring.cloud.config.url=172.18.03:8012" -e "eureka.client.serviceUrl.defaultZone=http://test:test@172.18.0.4:8010/eureka/"ry7791/zuul-gateway
 ```
 
 > zuul 내의 유동적인 세팅 값들은 -e로 수정해주자
@@ -132,7 +164,7 @@ spring:
       uri: http://localhost:8012
       name: ConfigServer
 //현재 도커로 실행 된 config의 ip값은 로컬이 아니라 172.17.03 이므로
--e "spring.cloud.config.url=172.17.03:8012"
+-e "spring.cloud.config.url=172.18.03:8012"
 ```
 
 
@@ -159,7 +191,7 @@ docker build --tag=ry7791/albums-microservice --force-rm=true .
 docker push ry7791/albums-microservice //도커 허브에 올리는 명령
 
 // 같은 서비스를 랜덤포트로 여러개 만들 수 있으므로 name 지정하면 충돌남 name x
-docker run -d -e "eureka.client.serviceUrl.defaultZone=http://test:test@172.17.0.4:8010/eureka/" -e "server.port=30000" -p 30000:30000 ry7791/albums-microservice
+docker run -d --network photo-app-network -e "eureka.client.serviceUrl.defaultZone=http://test:test@172.18.0.4:8010/eureka/" ry7791/albums-microservice
 
 ```
 
@@ -189,15 +221,15 @@ docker build --tag=ry7791/users-microservice --force-rm=true .
 docker push ry7791/users-microservice //도커 허브에 올리는 명령
 
 // 도커에 zipkin 깔아주자
-docker run -d -p 5673:5673 --name zipkin openzipkin/zipkin -p 9091:15673 --restart=unless-stopped -e ZIPKIN_DEFAULT_USER=admin -e ZIPKIN_DEFAULT_PASS=admin zipkin:management
+docker run -d --network photo-app-network -p 5673:5673 --name zipkin openzipkin/zipkin -p 9091:15673 --restart=unless-stopped -e ZIPKIN_DEFAULT_USER=admin -e ZIPKIN_DEFAULT_PASS=admin zipkin:management
 
 docker ps
 docker inspect zipkin아이디
 
 // 도커에 mysql 깔아서 spring_db 만들어주자
 docker pull mysql
-docker run -d -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mysql --name mysql1 mysql
-docker exec -i -t mysql_1 bash
+docker run -d --network photo-app-network -p 3306:3306 -e MYSQL_ROOT_PASSWORD=mysql --name mysql1 mysql
+docker exec -i -t mysql1 bash
 mysql -u root -p
 create database spring_db;
 
@@ -206,7 +238,17 @@ docker ps
 docker inspect mysql아이디
 
 // 같은 서비스를 랜덤포트로 여러개 만들 수 있으므로 name 지정하면 충돌남 name x
-docker run -d -e "spring.zipkin.base-url=172.17.0.7:5673" -e "spring.cloud.config.url=172.17.03:8012" -e "spring.rabbitmq.host=172.17.0.2" -e "eureka.client.serviceUrl.defaultZone=http://test:test@172.17.0.4:8010/eureka/" -e "server.port=40000" -e "spring.datasource.url=jdbc:mysql://172.17.0.8:3306/spring_db?serverTimezone=UTC&characterEncoding=UTF-8"-p 40000:40000 ry7791/users-microservice
+docker run -d --network photo-app-network
+-e "spring.zipkin.base-url=172.18.0.7:5673" 
+-e "spring.cloud.config.url=172.18.03:8012" 
+-e "spring.rabbitmq.host=172.18.0.2" 
+-e "eureka.client.serviceUrl.defaultZone=http://test:test@172.18.0.4:8010/eureka/" 
+-e "server.port=40000" 
+-e "spring.datasource.url=jdbc:mysql://172.18.0.8:3306/spring_db?serverTimezone=UTC&characterEncoding=UTF-8"ry7791/users-microservice
 
 ```
+
+
+
+
 
