@@ -1,4 +1,4 @@
-### jenkins plugin 설치
+### vagrant-jenkins plugin 설치
 
 ```
 vagrant plugin install vagrant-vbguest
@@ -8,7 +8,8 @@ bcdedit /set hypervisorlaunchtype off
 https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.30/bin/apache-tomcat-9.0.30.tar.gz
 
 ```java
-vagrant ssh jenkins-server
+C:\Users\HPE\work\vagrant> vagrant up
+C:\Users\HPE\work\vagrant> vagrant ssh jenkins-server
 
 #sudo yum install java-1.8*
 #sudo yum -y install java-1.8.0-openjdk-devel
@@ -104,5 +105,55 @@ tar xvfz apache-tomcat-9.0.30.tar.gz
 [vagrant@tomcat-server ~]$ cd apache-tomcat-9.0.30/bin
 [vagrant@tomcat-server bin]$ ./startup.sh
 3. (windows) http://localhost:28080
+Manager App기능 쓰려면 context.xml 수정해야함
+
+리스트 전체보기
+ls -al
+검색
+find ./ -name context.xml
 ```
+
+
+
+### war파일을 외부에 있는 tomcat 서버에 들어가서 배포
+
+
+
+### git 
+
+- 다른 깃 clone 해서 내 깃에 push 하기
+
+```java
+git clone ~~~ //먼저 clone
+git remote -v //현재 연결된 깃 확인
+git remote remove origin //현재 연결된 계정 깃 끊기
+git remote add master https://github.com/ry7791/vagrant.git //내 깃에 연결
+git add .
+git push --set-upstream master master //
+```
+
+
+
+- Jenkins관리
+
+```
+플러그인
+
+- available
+  - git 검색
+  - github, github integration 설치
+- maven 검색
+  - maven invoke, maven integration 설치
+```
+
+https://www.jenkins.io/download/ 에서 war 다운
+
+```
+C:\Users\HPE\Work\vagrant\data 여기에 받은 war 넣기
+[vagrant@jenkins-server data]$ java -jar jenkins.war
+```
+
+
+
+
 
