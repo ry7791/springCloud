@@ -150,60 +150,6 @@ spring:
 
 
 
-### docker
-
-```
-docker system prune  // 실행중인거 빼고 필요없는 거 다 삭제
-```
-
-- docker + EC2
-
-로컬에 있는 환경을 그대로 EC2로 옮겨보자
-
-
-
-자바버전
-
-볼륨마운트
-
-암호화처리키
-
-암호화세팅
-
-자르파일을 도커이미지에 복사
-
-도커 이미지 컨테이너화해서 명령어 실행
-
-- intellij 내 도커파일
-
-```dockerfile
-FROM openjdk:8-jdk-alpine
-VOLUME /tmp
-COPY apiEncryptionKey.jks apiEncryptionKey.jks
-COPY UnlimitedJCEPolicyJDK8/* /usr/lib/jvm/java-1.8-openjdk/jre/lib/security/
-COPY target/myapp-config-server-0.1.jar ConfigServer.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","ConfigServer.jar"]
-```
-
-- 터널에서의 명령어
-
-```shell
-mvn clean
-mvn package
-docker build --tag=ry7791/config-server --force-rm=true .
-docker push ry7791/config-server //도커 허브에 올리는 명령
-```
-
-
-
-rabbitmq ip 확인
-
-```
-docker inspect rabbitmq
-```
-
-
-
 
 
 
